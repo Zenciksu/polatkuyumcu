@@ -1,74 +1,20 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polat Kuyumculuk | Canlı Fiyatlar</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@600&display=swap" rel="stylesheet">
-    <style>
-        body { background-color: #0d0d0d; color: #fff; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; text-align: center; }
-        header { padding: 25px; border-bottom: 3px solid #d4af37; background: #000; }
-        .logo { font-family: 'Montserrat', sans-serif; font-size: 2.2rem; color: #d4af37; margin: 0; letter-spacing: 2px; }
-        
-        .container { max-width: 800px; margin: 20px auto; padding: 15px; }
-        
-        /* Widget Alanı Tasarımı */
-        .price-frame {
-            background: #1a1a1a;
-            border: 2px solid #333;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        }
+async function getGoldPrice() {
+    try {
+        const res = await fetch("https://kapalicarsi.apiluna.org/");
+        const data = await res.json();
 
-        .contact-btn {
-            display: inline-block;
-            margin-top: 30px;
-            background: #25d366;
-            color: white;
-            padding: 15px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        
-        .footer { margin-top: 40px; color: #555; font-size: 0.8rem; }
-    </style>
-</head>
-<body>
+        const gram = parseFloat(data[0].satis);
+        document.getElementById("gold-price").innerText = gram.toFixed(2) + " ₺";
 
-<header>
-    <h1 class="logo">POLAT KUYUMCULUK</h1>
-    <div id="clock" style="color: #d4af37; margin-top: 10px; font-weight: bold;"></div>
-</header>
+        document.getElementById("gold-status").innerText = ""; 
+        document.getElementById("update-time").innerText = 
+            new Date().toLocaleTimeString('tr-TR');
 
-<div class="container">
-    <div class="price-frame">
-        <iframe 
-            src="https://www.altinpiyasa.com/sitene-ekle/altin-fiyatlari-tablo?tema=koyu&tablo=altin,doviz&font=poppins" 
-            width="100%" 
-            height="500" 
-            frameborder="0" 
-            scrolling="no">
-        </iframe>
-    </div>
-
-    <a href="https://wa.me/905550754724" class="contact-btn">WHATSAPP İLE FİYAT AL</a>
-
-    <div class="footer">
-        © 2026 Polat Kuyumculuk | Veriler anlık olarak piyasa ekranlarından yansıtılmaktadır.
-    </div>
-</div>
-
-<script>
-    function updateClock() {
-        const now = new Date();
-        document.getElementById('clock').innerText = now.toLocaleString('tr-TR');
+    } catch (error) {
+        document.getElementById("gold-price").innerText = "Hata";
+        console.error(error);
     }
-    setInterval(updateClock, 1000);
-    updateClock();
-</script>
+}
 
-</body>
-</html>
+getGoldPrice();
+setInterval(getGoldPrice, 60000);
