@@ -1,20 +1,141 @@
-async function getGoldPrice() {
-    try {
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polat Kuyumculuk | Canlı Fiyatlar</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    background:#0d0d0d;
+    color:#fff;
+    font-family:'Poppins',sans-serif;
+    margin:0;
+    text-align:center;
+}
+header {
+    padding:25px;
+    border-bottom:3px solid #d4af37;
+    background:#000;
+}
+.logo {
+    font-family:'Montserrat',sans-serif;
+    font-size:2.2rem;
+    color:#d4af37;
+    margin:0;
+}
+.container {
+    max-width:800px;
+    margin:20px auto;
+    padding:15px;
+}
+.price-frame {
+    background:#1a1a1a;
+    border:2px solid #333;
+    border-radius:15px;
+    padding:25px;
+}
+.gold-title {
+    color:#d4af37;
+    font-size:1.4rem;
+}
+.gold-price {
+    font-size:2.6rem;
+    margin-top:10px;
+}
+.gold-status {
+    margin-top:10px;
+    font-size:1.1rem;
+}
+.gold-time {
+    margin-top:15px;
+    font-size:0.8rem;
+    color:#aaa;
+}
+.contact-btn {
+    display:inline-block;
+    margin-top:30px;
+    background:#25d366;
+    color:white;
+    padding:15px 40px;
+    border-radius:50px;
+    text-decoration:none;
+    font-weight:bold;
+}
+.footer {
+    margin-top:40px;
+    color:#555;
+    font-size:0.8rem;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1 class="logo">POLAT KUYUMCULUK</h1>
+<div id="clock" style="color:#d4af37;margin-top:10px;"></div>
+</header>
+
+<div class="container">
+
+<div class="price-frame">
+    <div class="gold-title">📊 Gram Altın (Kapalıçarşı)</div>
+    <div class="gold-price"><span id="gold-price">--</span> ₺</div>
+    <div class="gold-status" id="gold-status">Yükleniyor...</div>
+    <div class="gold-time">Son Güncelleme: <span id="update-time"></span></div>
+</div>
+
+<a href="https://wa.me/905550754724" class="contact-btn">
+WHATSAPP İLE FİYAT AL
+</a>
+
+<div class="footer">
+© 2026 Polat Kuyumculuk | Veriler Kapalıçarşı kaynaklıdır.
+</div>
+
+</div>
+
+<script>
+// SAAT
+function updateClock(){
+    document.getElementById("clock").innerText =
+        new Date().toLocaleString("tr-TR");
+}
+setInterval(updateClock,1000);
+updateClock();
+
+// ALTIN
+let lastPrice = 0;
+
+async function getGoldPrice(){
+    try{
         const res = await fetch("https://kapalicarsi.apiluna.org/");
         const data = await res.json();
 
-        const gram = parseFloat(data[0].satis);
-        document.getElementById("gold-price").innerText = gram.toFixed(2) + " ₺";
+        const gram = parseFloat(data.find(x => x.urun === "GRAM ALTIN").satis);
+        document.getElementById("gold-price").innerText = gram.toFixed(2);
 
-        document.getElementById("gold-status").innerText = ""; 
-        document.getElementById("update-time").innerText = 
-            new Date().toLocaleTimeString('tr-TR');
+        if(lastPrice !== 0){
+            if(gram > lastPrice)
+                document.getElementById("gold-status").innerText = "📈 Yükseliyor";
+            else if(gram < lastPrice)
+                document.getElementById("gold-status").innerText = "📉 Düşüyor";
+            else
+                document.getElementById("gold-status").innerText = "➖ Sabit";
+        }
 
-    } catch (error) {
-        document.getElementById("gold-price").innerText = "Hata";
-        console.error(error);
+        lastPrice = gram;
+        document.getElementById("update-time").innerText =
+            new Date().toLocaleTimeString("tr-TR");
+
+    }catch(e){
+        document.getElementById("gold-status").innerText = "Veri alınamadı";
+        console.error(e);
     }
 }
 
 getGoldPrice();
-setInterval(getGoldPrice, 60000);
+setI
