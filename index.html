@@ -4,75 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Polat Kuyumculuk | Canlı Fiyatlar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@600&display=swap" rel="stylesheet">
     <style>
-        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; text-align: center; margin: 0; padding: 0; }
-        header { padding: 25px; border-bottom: 2px solid #d4af37; background: #111; margin-bottom: 30px; }
-        .logo { color: #d4af37; font-size: 28px; font-weight: bold; margin: 0; letter-spacing: 3px; text-transform: uppercase; }
+        body { background-color: #0d0d0d; color: #fff; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; text-align: center; }
+        header { padding: 25px; border-bottom: 3px solid #d4af37; background: #000; }
+        .logo { font-family: 'Montserrat', sans-serif; font-size: 2.2rem; color: #d4af37; margin: 0; letter-spacing: 2px; }
         
-        .container { max-width: 600px; margin: 0 auto; padding: 15px; }
+        .container { max-width: 800px; margin: 20px auto; padding: 15px; }
         
-        /* Panel Kutusu */
-        .market-card {
-            background: #111;
-            border: 2px solid #d4af37;
+        /* Widget Alanı Tasarımı */
+        .price-frame {
+            background: #1a1a1a;
+            border: 2px solid #333;
             border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
-        h2 { color: #d4af37; font-size: 18px; margin-bottom: 20px; text-transform: uppercase; }
-        #clock { color: #888; font-size: 14px; margin-top: 5px; font-family: monospace; }
+        .contact-btn {
+            display: inline-block;
+            margin-top: 30px;
+            background: #25d366;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
         
-        /* Widget'ın tasarımıyla oynamak için */
-        .tradingview-widget-container { margin: 0 auto; }
+        .footer { margin-top: 40px; color: #555; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
 <header>
-    <p class="logo">POLAT KUYUMCULUK</p>
-    <div id="clock">Yükleniyor...</div>
+    <h1 class="logo">POLAT KUYUMCULUK</h1>
+    <div id="clock" style="color: #d4af37; margin-top: 10px; font-weight: bold;"></div>
 </header>
 
 <div class="container">
-    <div class="market-card">
-        <h2>Canlı Altın ve Döviz</h2>
-        
-        <div class="tradingview-widget-container">
-            <div class="tradingview-widget-container__widget"></div>
-            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
-            {
-            "colorTheme": "dark",
-            "dateRange": "12M",
-            "showChart": false,
-            "locale": "tr",
-            "width": "100%",
-            "height": "400",
-            "largeChartUrl": "",
-            "isTransparent": true,
-            "showSymbolLogo": true,
-            "showFloatingTooltip": false,
-            "tabs": [
-                {
-                "title": "Altın & Döviz",
-                "symbols": [
-                    { "proName": "FX_IDC:XAUTRYG", "title": "Gram Altın" },
-                    { "proName": "FX_IDC:USDTRY", "title": "Dolar/TL" },
-                    { "proName": "FX_IDC:EURTRY", "title": "Euro/TL" },
-                    { "proName": "OANDA:XAUUSD", "title": "Ons Altın" }
-                ]
-                }
-            ]
-            }
-            </script>
-        </div>
+    <div class="price-frame">
+        <iframe 
+            src="https://www.altinpiyasa.com/sitene-ekle/altin-fiyatlari-tablo?tema=koyu&tablo=altin,doviz&font=poppins" 
+            width="100%" 
+            height="500" 
+            frameborder="0" 
+            scrolling="no">
+        </iframe>
     </div>
-    <p style="color: #444; font-size: 11px; margin-top: 15px;">Veriler TradingView üzerinden anlık sağlanmaktadır.</p>
+
+    <a href="https://wa.me/905550754724" class="contact-btn">WHATSAPP İLE FİYAT AL</a>
+
+    <div class="footer">
+        © 2026 Polat Kuyumculuk | Veriler anlık olarak piyasa ekranlarından yansıtılmaktadır.
+    </div>
 </div>
 
 <script>
     function updateClock() {
-        document.getElementById('clock').innerText = new Date().toLocaleString('tr-TR');
+        const now = new Date();
+        document.getElementById('clock').innerText = now.toLocaleString('tr-TR');
     }
     setInterval(updateClock, 1000);
     updateClock();
