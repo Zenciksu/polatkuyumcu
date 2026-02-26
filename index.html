@@ -1,232 +1,193 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polat Kuyumculuk | Canlı Fiyatlar</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polat Kuyumculuk | Canlı Fiyatlar</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@600&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            background:#0d0d0d;
-            color:#fff;
-            font-family:'Poppins',sans-serif;
-            margin:0;
-            text-align:center;
-        }
-        header {
-            padding:25px;
-            border-bottom:3px solid #d4af37;
-            background:#000;
-        }
-        .logo {
-            font-family:'Montserrat',sans-serif;
-            font-size:2.2rem;
-            color:#d4af37;
-            margin:0;
-        }
-        .container {
-            max-width:800px;
-            margin:20px auto;
-            padding:15px;
-        }
-        .price-frame {
-            background:#1a1a1a;
-            border:2px solid #333;
-            border-radius:15px;
-            padding:25px;
-            margin-bottom: 20px;
-        }
-        .gold-title {
-            color:#d4af37;
-            font-size:1.4rem;
-            margin-bottom: 10px;
-        }
-        .gold-price {
-            font-size:2.6rem;
-        }
-        .gold-status {
-            margin-top:10px;
-            font-size:1.1rem;
-        }
-        .gold-time {
-            margin-top:15px;
-            font-size:0.8rem;
-            color:#aaa;
-        }
-
-        /* Yeni Socket Veri Tablosu Stili */
-        .market-table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            background: #1a1a1a;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .market-table th, .market-table td {
-            padding: 12px;
-            border-bottom: 1px solid #333;
-            text-align: center;
-        }
-        .market-table th {
-            background: #d4af37;
-            color: #000;
-        }
-        .symbol-name { color: #d4af37; font-weight: bold; }
-
-        .contact-btn {
-            display:inline-block;
-            margin-top:30px;
-            background:#25d366;
-            color:white;
-            padding:15px 40px;
-            border-radius:50px;
-            text-decoration:none;
-            font-weight:bold;
-            transition: 0.3s;
-        }
-        .contact-btn:hover { opacity: 0.8; }
-        
-        .footer {
-            margin-top:40px;
-            color:#555;
-            font-size:0.8rem;
-            padding-bottom: 20px;
-        }
-        iframe {
-            margin-top: 20px;
-            border-radius: 15px;
-            border: 1px solid #333;
-        }
-    </style>
+<style>
+body {
+    background:#0d0d0d;
+    color:#fff;
+    font-family:'Poppins',sans-serif;
+    margin:0;
+    text-align:center;
+}
+header {
+    padding:25px;
+    border-bottom:3px solid #d4af37;
+    background:#000;
+}
+.logo {
+    font-family:'Montserrat',sans-serif;
+    font-size:2.2rem;
+    color:#d4af37;
+    margin:0;
+}
+.container {
+    max-width:800px;
+    margin:20px auto;
+    padding:15px;
+}
+.price-frame {
+    background:#1a1a1a;
+    border:2px solid #333;
+    border-radius:15px;
+    padding:25px;
+}
+.gold-title {
+    color:#d4af37;
+    font-size:1.4rem;
+}
+.gold-price {
+    font-size:2.6rem;
+    margin-top:10px;
+}
+.gold-status {
+    margin-top:10px;
+    font-size:1.1rem;
+}
+.gold-time {
+    margin-top:15px;
+    font-size:0.8rem;
+    color:#aaa;
+}
+.contact-btn {
+    display:inline-block;
+    margin-top:30px;
+    background:#25d366;
+    color:white;
+    padding:15px 40px;
+    border-radius:50px;
+    text-decoration:none;
+    font-weight:bold;
+}
+.footer {
+    margin-top:40px;
+    color:#555;
+    font-size:0.8rem;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-    <h1 class="logo">POLAT KUYUMCULUK</h1>
-    <div id="clock" style="color:#d4af37;margin-top:10px;"></div>
+<h1 class="logo">POLAT KUYUMCULUK</h1>
+<div id="clock" style="color:#d4af37;margin-top:10px;"></div>
 </header>
 
 <div class="container">
 
-    <div class="price-frame">
-        <div class="gold-title">📊 Gram Altın (Kapalıçarşı)</div>
-        <div class="gold-price"><span id="gold-price">--</span> ₺</div>
-        <div id="gold-status" class="gold-status">Yükleniyor...</div>
-        <div class="gold-time">Son Güncelleme: <span id="update-time"></span></div>
-    </div>
+<div class="price-frame">
+    <div class="gold-title">📊 Gram Altın (Kapalıçarşı)</div>
+    <div class="gold-price"><span id="gold-price">--</span> ₺</div>
+    <div class="gold-status" id="gold-status">Yükleniyor...</div>
+    <div class="gold-time">Son Güncelleme: <span id="update-time"></span></div>
+</div>
 
-    <div class="price-frame">
-        <div class="gold-title">🌐 Canlı Döviz & Maden</div>
-        <table class="market-table">
-            <thead>
-                <tr>
-                    <th>Sembol</th>
-                    <th>Alış</th>
-                    <th>Satış</th>
-                </tr>
-            </thead>
-            <tbody id="socket-data">
-                <tr><td colspan="3">Veriler bekleniyor...</td></tr>
-            </tbody>
-        </table>
-    </div>
+<a href="https://wa.me/905550754724" class="contact-btn">
+WHATSAPP İLE FİYAT AL
+</a>
 
-    <iframe 
-      src="https://www.altinpiyasa.com/sitene-ekle/altin-fiyatlari-tablo?tema=koyu&tablo=altin&font=poppins" 
-      width="100%" 
-      height="420" 
-      frameborder="0" 
-      scrolling="no">
-    </iframe>
-
-    <a href="https://wa.me/905550754724" class="contact-btn">
-        WHATSAPP İLE FİYAT AL
-    </a>
-
-    <div class="footer">
-        © 2026 Polat Kuyumculuk | Veriler Kapalıçarşı ve Canlı Piyasa kaynaklıdır.
-    </div>
+<div class="footer">
+© 2026 Polat Kuyumculuk | Veriler Kapalıçarşı kaynaklıdır.
+</div>
 
 </div>
 
-<script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
-
 <script>
-// --- SAAT FONKSİYONU ---
+// SAAT
 function updateClock(){
-    document.getElementById("clock").innerText = new Date().toLocaleString("tr-TR");
+    document.getElementById("clock").innerText =
+        new Date().toLocaleString("tr-TR");
 }
 setInterval(updateClock,1000);
 updateClock();
 
-// --- KAPALIÇARŞI API (GRAM ALTIN) ---
+// ALTIN
 let lastPrice = 0;
+
 async function getGoldPrice(){
-    try {
-        const res = await fetch("https://kapalicarsi.apiluna.org/");
-        const data = await res.json();
-        const gramData = data.find(x => x.urun === "GRAM ALTIN");
-        
-        if(gramData) {
-            const gram = parseFloat(gramData.satis);
-            document.getElementById("gold-price").innerText = gram.toFixed(2);
+    try{
+        const res = await fetch("https://kapalicarsi.apiluna.org/");
+        const data = await res.json();
 
-            if(lastPrice !== 0){
-                if(gram > lastPrice) document.getElementById("gold-status").innerText = "📈 Yükseliyor";
-                else if(gram < lastPrice) document.getElementById("gold-status").innerText = "📉 Düşüyor";
-                else document.getElementById("gold-status").innerText = "➖ Sabit";
-            }
-            lastPrice = gram;
-        }
-        document.getElementById("update-time").innerText = new Date().toLocaleTimeString("tr-TR");
-    } catch(e) {
-        document.getElementById("gold-status").innerText = "Veri alınamadı";
-    }
+        const gram = parseFloat(data.find(x => x.urun === "GRAM ALTIN").satis);
+        document.getElementById("gold-price").innerText = gram.toFixed(2);
+
+        if(lastPrice !== 0){
+            if(gram > lastPrice)
+                document.getElementById("gold-status").innerText = "📈 Yükseliyor";
+            else if(gram < lastPrice)
+                document.getElementById("gold-status").innerText = "📉 Düşüyor";
+            else
+                document.getElementById("gold-status").innerText = "➖ Sabit";
+        }
+
+        lastPrice = gram;
+        document.getElementById("update-time").innerText =
+            new Date().toLocaleTimeString("tr-TR");
+
+    }catch(e){
+        document.getElementById("gold-status").innerText = "Veri alınamadı";
+        console.error(e);
+    }
 }
-getGoldPrice();
-setInterval(getGoldPrice, 60000);
+<iframe 
+  src="https://www.altinpiyasa.com/sitene-ekle/altin-fiyatlari-tablo?tema=koyu&tablo=altin&font=poppins" 
+  width="100%" 
+  height="420" 
+  frameborder="0" 
+  scrolling="no">
+</iframe>
 
-// --- CANLI PİYASA (SOCKET.IO) ---
-const socket = io('https://free.datshop.com.tr', {
+getGoldPrice();
+setInterval(getGoldPrice,60000);
+</script>
+
+</body>
+</html>
+
+ <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+<script>
+  const socket = io('https://free.datshop.com.tr', {
+    path: '/free-socket',
+    transports: ['websocket']
+  });
+  socket.on('connect', () => console.log('connected'));
+  socket.on('price', (data) => console.log('price', data));
+  socket.on('price_update', (data) => console.log('price_update', data));
+</script> <script>
+  const socket = io('https://free.datshop.com.tr', {
     path: '/free-socket',
     transports: ['websocket'],
     reconnection: true,
     reconnectionAttempts: Infinity,
     reconnectionDelayMax: 5000
-});
-
-const wanted = {
-    'USDTRY': 'Dolar/TL',
-    'EURTRY': 'Euro/TL',
-    'GUMTRY': 'Gümüş/TL',
-    'XAUUSD': 'Ons Altın'
-};
-
-socket.on('price', (list) => {
+  });
+  const wanted = ['USDTRY','EURTRY','GUMTRY','XAUUSD'];
+  socket.on('price', (list) => {
     const data = Array.isArray(list) ? list : [list];
-    const filtered = data.filter(p => Object.keys(wanted).includes(p.symbol));
-    
-    if(filtered.length > 0) {
-        let html = '';
-        filtered.forEach(item => {
-            html += `
-                <tr>
-                    <td class="symbol-name">${wanted[item.symbol]}</td>
-                    <td>${item.bid || '--'}</td>
-                    <td>${item.ask || item.price || '--'}</td>
-                </tr>
-            `;
-        });
-        document.getElementById("socket-data").innerHTML = html;
-    }
-});
-
-socket.on('connect', () => console.log('Socket Bağlandı!'));
+    const filtered = data.filter(p => wanted.includes(p.symbol)).slice(0, 10);
+    console.table(filtered);
+  });
 </script>
 
-</body>
-</html>
+<script>
+  const socket = io('https://free.datshop.com.tr', {
+    path: '/free-socket',
+    transports: ['websocket'],
+    reconnection: true,
+    reconnectionAttempts: Infinity,
+    reconnectionDelayMax: 5000
+  });
+  const wanted = ['USDTRY','EURTRY','GUMTRY','XAUUSD'];
+  socket.on('price', (list) => {
+    const data = Array.isArray(list) ? list : [list];
+    const filtered = data.filter(p => wanted.includes(p.symbol)).slice(0, 10);
+    console.table(filtered);
+  });
+</script>
